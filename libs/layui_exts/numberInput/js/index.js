@@ -2,11 +2,17 @@
  * @name numberInput
  * @author HuangJunjie
  * @description layui 数值输入框扩展
- * @version 1.3.20210604
+ * @version 1.6.20210609
  */
 layui.define(["jquery"], function (exports) {
     var $ = layui.jquery;
     var prefix = "number-input";
+
+    /**
+     * 链接外部样式文件
+     * 由 码云 @hulangfy 同学建议
+     */
+    layui.link(layui.cache.base + 'numberInput/css/theme.css');
 
     /**
      * 创建样式列表
@@ -31,12 +37,30 @@ layui.define(["jquery"], function (exports) {
      * @param value
      * @param precision
      */
-    function radioNumber(value, precision) {
+    function ratioNumber(value, precision) {
         if (precision === undefined) precision = 0;
         var floatVal = parseFloat(value) || 0;
-        var radio = Math.pow(10, precision);
+        var ratio = Math.pow(10, precision);
 
-        return ((floatVal * radio) / radio).toFixed(precision);
+        return ((floatVal * ratio) / ratio).toFixed(precision);
+    }
+
+    /**
+     * 检查是否包含特定属性
+     * @param {*} $el 
+     * @param {*} attr 
+     * @returns 
+     */
+    function hasAttr($el, attr) {
+        var attrs = $el[0].attributes;
+
+        for (var i = 0; i < attrs.length; i++) {
+            if (attrs[i].name === attr) {
+                return attrs[i].value !== "false";
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -47,18 +71,22 @@ layui.define(["jquery"], function (exports) {
     function init(id, opts) {
         if (!opts) opts = {};
 
+        // 绑定Dom
+        var $input = $(id);
+        var $target = $(id).parent();
         // 取出配置
-        var max = parseFloat(opts.max) || 19961005;
-        var min = parseFloat(opts.min) || 0;
-        var precision = parseInt(opts.precision) || 0;
-        var radio = Math.pow(10, precision);
-        var step = opts.step ? parseFloat(opts.step) : ((parseFloat(opts.step) || 1) / radio);
+        var max = parseFloat(opts.max || $input.data("max")) || 999999999;
+        var min = parseFloat(opts.min || $input.data("min")) || 0;
+        var precision = parseInt(opts.precision || $input.data("precision")) || 0;
+        var ratio = Math.pow(10, precision);
+        var step = opts.step ? parseFloat(opts.step || $input.date("step")) : ((parseFloat(opts.step) || 1) / ratio);
         var skin = opts.skin || "default";
-        var iconAdd = opts.iconAdd || "layui-icon layui-icon-addition";
-        var iconSubtract = opts.iconSubtract || "layui-icon layui-icon-subtraction";
-        var width = opts.width || 100;
-        var allowEmpty = opts.allowEmpty || false;
-        var autoSelect = opts.autoSelect || false;
+        var iconAdd = opts.iconAdd || $input.data("icon-add") || "layui-icon layui-icon-addition";
+        var iconSubtract = opts.iconSubtract || $input.data("icon-subtract") || "layui-icon layui-icon-subtraction";
+        var width = opts.width || $input.data("width") || 100;
+        var allowEmpty = opts.allowEmpty || hasAttr($input, "data-allow-empty") || false;
+        var autoSelect = opts.autoSelect || hasAttr($input, "data-auto-select") || false;
+        var defaultValue = ratioNumber(opts.defaultValue || $input.attr("value") || hasAttr($input, "data-default-value") || 0, precision);
 
         // 激活指定事件
         function activeEvent(name, event, dom, value, tree) {
@@ -73,8 +101,6 @@ layui.define(["jquery"], function (exports) {
         activeEvent("beforeCreated");
 
         // 绑定元素
-        var $input = $(id);
-        var $target = $(id).parent();
         var $container = $('<div class="' + createClassList("container", skin) + '"></div>');
         var $subtract = $('<div class="' + createClassList("subtract", skin) + '"></div>').append($('<i class="' + iconSubtract + '"></i>'));
         var $add = $('<div class="' + createClassList("add", skin) + '"></div>').append($('<i class="' + iconAdd + '"></i>'));
@@ -86,9 +112,6 @@ layui.define(["jquery"], function (exports) {
             add: $add,
             container: $container,
         };
-
-        // 初始化默认值
-        var defaultValue = radioNumber(opts.value || $input.attr("value") || 0, precision);
 
         // 自动全选
         $input.on("focus", function (event) {
@@ -149,14 +172,14 @@ layui.define(["jquery"], function (exports) {
                     var floatVal = parseFloat(newVal);
 
                     if (floatVal > max) {
-                        var maxVal = radioNumber(max, precision);
+                        var maxVal = ratioNumber(max, precision);
                         $(this).val(maxVal);
                         activeEvent("change", event, $input, maxVal, $dom);
                         activeEvent("input", event, $input, maxVal, $dom);
                         return;
                     }
                     if (floatVal < min) {
-                        var minVal = radioNumber(min, precision);
+                        var minVal = ratioNumber(min, precision);
                         $(this).val(minVal);
                         activeEvent("change", event, $input, minVal, $dom);
                         activeEvent("input", event, $input, minVal, $dom);
@@ -176,14 +199,14 @@ layui.define(["jquery"], function (exports) {
                         activeEvent("blur", event, $input, val, $dom);
                         return;
                     } else {
-                        var newVal = radioNumber(min, precision);
+                        var newVal = ratioNumber(defaultValue, precision);
                         $(this).val(newVal);
                         activeEvent("change", event, $input, newVal, $dom);
                         activeEvent("blur", event, $input, newVal, $dom);
                         return;
                     }
                 } else {
-                    var newVal = radioNumber(val, precision);
+                    var newVal = ratioNumber(val, precision);
                     $(this).val(newVal);
                     activeEvent("change", event, $input, newVal, $dom);
                     activeEvent("blur", event, $input, newVal, $dom);
@@ -193,15 +216,15 @@ layui.define(["jquery"], function (exports) {
             .on("keypress", function (event) {
                 activeEvent("keypress", event, $input, $input.val(), $dom);
             }).on("mousewheel", function (event) {
-            activeEvent("mousewheel", event, $input, $input.val(), $dom);
-        });
+                activeEvent("mousewheel", event, $input, $input.val(), $dom);
+            });
 
         $subtract.on("click", function (event) {
             var val = $input.val();
             var floatVal = parseFloat(val);
 
             if (floatVal - step >= min) {
-                var newVal = radioNumber(floatVal - step, precision);
+                var newVal = ratioNumber(floatVal - step, precision);
                 $input.val(newVal);
                 if (floatVal != min) {
                     activeEvent("change", event, $subtract, newVal, $dom);
@@ -209,7 +232,7 @@ layui.define(["jquery"], function (exports) {
                     activeEvent("toMin", event, $subtract, newVal, $dom);
                 }
             } else {
-                var newVal = radioNumber(min, precision);
+                var newVal = ratioNumber(min, precision);
                 $input.val(newVal);
                 if (floatVal == min) {
                     activeEvent("toMin", event, $subtract, newVal, $dom);
@@ -225,11 +248,11 @@ layui.define(["jquery"], function (exports) {
             var floatVal = parseFloat(val);
 
             if (floatVal + step <= max) {
-                var newVal = radioNumber(floatVal + step, precision);
+                var newVal = ratioNumber(floatVal + step, precision);
                 $input.val(newVal);
                 activeEvent("change", event, $add, newVal, $dom);
             } else {
-                var newVal = radioNumber(max, precision);
+                var newVal = ratioNumber(max, precision);
                 $input.val(newVal);
                 if (floatVal == max) {
                     activeEvent("toMax", event, $add, newVal, $dom);
