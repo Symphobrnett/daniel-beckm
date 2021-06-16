@@ -1,37 +1,26 @@
-# iconSelected
+# iconSelected - 图标选择器
 
-#### 介绍
-Layui 图标选择器
+不要问为啥不更新 numberInput 的文档, 不要问, 问就是懒! 又给大家写了个扩展, **图标选择器**, 看图吧, 我觉得但凡不是个傻子都知道能应用在哪些场景!
 
-#### 软件架构
-软件架构说明
+![示意图](./imgs/example.png)
 
+应用场景比如说在后台管理系统里, 添加 **菜单** 的时候, 你肯定是希望能给菜单+个图标, 好看点, 反正我是翻遍了官方扩展站没找到我喜欢的, 所以就写了这样一个!
 
-#### 安装教程
+## 兼容性
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+人类浏览器 + 国产套壳浏览器+国产套壳的极速模式 + IE9~11 + Edge
 
-#### 使用说明
+## 如何使用
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+> 看不懂? 没关系, 直接看示例代码吧! [example.html](./example.html) 谁都逃不过真相定律!
 
-#### 参与贡献
+1. 下载源代码, 国际惯例, 打开 [Releases](https://gitee.com/layui-exts/icon-selected/releases) 下载.
+2. 丢到你项目里面 `layui` 的扩展目录, 如 `layui_exts`
+3. 引入样式文件, 使用 `layui.config` + `layui.extend` 初始化!
+4. 使用 `layui.use(["iconSelected"],function(){})` 的方式引入插件并开始使用!
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+# 支持我
 
+老规矩, 有钱的捧个钱场, 没钱的捧个人场. 散会!
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+![上老图](./imgs/face1.jpg)
