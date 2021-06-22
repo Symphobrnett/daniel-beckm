@@ -1,0 +1,19 @@
+{
+  "name": "docsify-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sw.js",
+  "scripts": {
+    "install:cnpm": "cnpm install",
+    "install:npm": "npm install",
+    "install:yarn": "yarn",
+    "dev": "docsify serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitmr.com/developer-cli/development-framework/docsify-cli.git"
+  },
+  "keywords": ["docsify"],
+  "author": "FuZhu_Me",
+  "license": "MIT"
+}
