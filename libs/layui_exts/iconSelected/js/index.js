@@ -2,7 +2,7 @@
  * @name iconSelected
  * @author HuangJunjie
  * @description layui 图标选择器
- * @version 1.0.1.20210609
+ * @version 1.0.2.20210616
  */
 
 layui.define(["layer", "jquery"], function (exports) {
@@ -714,7 +714,7 @@ layui.define(["layer", "jquery"], function (exports) {
             var placeholder = $input.attr("placeholder") || opts.placeholder || "请选择";
             var maxWidth = $body.width();
             var value = $input.val() || opts.value;
-            var zIndex = opts.zIndex || 999;
+            var zIndex = opts.zIndex || 19961005;
 
             // 托管事件
             function activeEvent(name, event, data) {

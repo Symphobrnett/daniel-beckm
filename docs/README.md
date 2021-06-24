@@ -113,7 +113,9 @@ layui.use(["iconSelected"], function () {
 
 -   zIndex
     -   zIndex 值
-    -   默认: 999
+    -   默认值: 
+        - 老版本为: `999`
+        - 在: `v1.0.2.20210616` 改为 `19961005` [#I3VQRC](https://gitee.com/layui-exts/icon-selected/issues/I3VQRC)
     -   别告诉我你不知道 zIndex 啥意思!
 
 ---
