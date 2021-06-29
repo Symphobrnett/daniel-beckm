@@ -24,10 +24,11 @@
 .layui-ext-icon-selected-container {
   padding: 5px;
   display: none;
-  position: fixed;
+  position: absolute;
   z-index: 999;
-  left: 0;
-  top: 0;
+  top: 100%;
+  left: 0px;
+  margin-top: 5px;
   height: 240px;
   width: 300px;
   overflow-x: hidden;
@@ -115,4 +116,3 @@
     transform: translateY(0px);
   }
 }
-/*# sourceMappingURL=theme.css.map */

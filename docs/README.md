@@ -82,18 +82,6 @@ layui.use(["iconSelected"], function () {
     -   弹窗的宽度
     -   默认: 300
 
--   offsetX
-
-    -   弹窗 X 轴偏移量
-    -   默认: 30
-    -   不建议修改
-
--   offsetY
-
-    -   弹窗 Y 轴偏移量
-    -   默认: 10
-    -   不建议修改
-
 -   icons
 
     -   图标列表
@@ -113,10 +101,30 @@ layui.use(["iconSelected"], function () {
 
 -   zIndex
     -   zIndex 值
-    -   默认值: 
-        - 老版本为: `999`
-        - 在: `v1.0.2.20210616` 改为 `19961005` [#I3VQRC](https://gitee.com/layui-exts/icon-selected/issues/I3VQRC)
+    -   默认值:
+        -   老版本为: `999`
+        -   在: `v1.0.2.20210616` 改为 `19961005` [#I3VQRC](https://gitee.com/layui-exts/icon-selected/issues/I3VQRC)
     -   别告诉我你不知道 zIndex 啥意思!
+
+### 需要注意的配置项
+
+!> 在 `v1.0.3.20210713` 之前 `offsetX` 和 `offsetY` 的作用是偏移弹层, 弹层的实现逻辑是 `fixed` 绝地定位, 即 offsetX(Y) 是相对于 自身为止(基于浏览器窗口) 进行偏移, 主要考虑场景是部分特别小的窗口内嵌选择器显示不全的问题
+
+!> 在 `v1.0.3.20210713` 开始变为 `absolute` 相对定位, 更加简便, 即 offsetX(Y) 对应着 自身(相对于父元素)偏移量
+
+-   offsetX
+
+    -   弹窗 X 轴偏移量
+    -   默认: 30
+    -   在 `v1.0.3.20210713` 变更为 `0`
+    -   不建议修改
+
+-   offsetY
+
+    -   弹窗 Y 轴偏移量
+    -   默认: 10
+    -   在 `v1.0.3.20210713` 变更为 `5`
+    -   不建议修改
 
 ---
 

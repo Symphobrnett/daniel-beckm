@@ -34,7 +34,7 @@
                 <div class="layui-form-item">
                     <div class="layui-form-label">备注信息</div>
                     <div class="layui-input-block">
-                        <textarea name="remark" rows="3" placeholder="可留空" class="layui-textarea" style="resize: none;"></textarea>
+                        <textarea name="remark" rows="3" placeholder="可留空" class="layui-textarea" style="resize: none"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -63,14 +63,13 @@
 
                 numberInput.init("#sort");
 
-                iconSelected
-                    .init("#icon", {
-                        event: {
-                            select(event, data) {
-                                console.log("选中的图标数据", { event, data });
-                            },
+                iconSelected.init("#icon", {
+                    event: {
+                        select(event, data) {
+                            console.log("选中的图标数据", { event, data });
                         },
-                    });
+                    },
+                });
 
                 form.on("submit", function (data) {
                     layer.open({
