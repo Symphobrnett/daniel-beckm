@@ -11,24 +11,24 @@
     </head>
     <body>
         <div class="board">
-            <h1 class="title">图标选择器</h1>
+            <h1 class="title">效果展示</h1>
             <div class="layui-form">
                 <div class="layui-form-item">
-                    <div class="layui-form-label">选择图标</div>
+                    <div class="layui-form-label">选择图标1</div>
                     <div class="layui-input-block">
-                        <input type="text" name="icon" value="layui-icon layui-icon-username" placeholder="请选择" maxlength="16" autocomplete="off" class="layui-input" id="icon" />
+                        <input type="text" name="icon1" value="layui-icon layui-icon-username" placeholder="请选择" maxlength="16" autocomplete="off" class="layui-input layui-select-icon" id="icon" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-form-label">选择图标2</div>
+                    <div class="layui-input-block">
+                        <input type="text" name="icon2" value="layui-icon layui-icon-light" placeholder="请选择" maxlength="16" autocomplete="off" class="layui-input layui-select-icon" id="icon" />
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-form-label">名称</div>
                     <div class="layui-input-block">
                         <input type="text" name="name" value="用户管理" autofocus maxlength="16" autofocus required lay-verify="required" autocomplete="off" class="layui-input" placeholder="名称" />
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-form-label">排序号</div>
-                    <div class="layui-input-block">
-                        <input type="text" name="sort" value="10" placeholder="序号" class="layui-input" id="sort" />
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -51,19 +51,24 @@
                     base: "./libs/layui_exts/",
                 })
                 .extend({
-                    numberInput: "numberInput/js/index",
                     iconSelected: "iconSelected/js/index",
                 });
 
-            layui.use(["numberInput", "layer", "iconSelected", "form"], function () {
-                var numberInput = layui.numberInput;
+            layui.use(["layer", "iconSelected", "form"], function () {
                 var iconSelected = layui.iconSelected;
                 var layer = layui.layer;
                 var form = layui.form;
 
-                numberInput.init("#sort");
-
-                iconSelected.init("#icon", {
+                /**
+                 * v2 版本开始保持跟 layui 官方写法同步
+                 * 使用 render 方法渲染, 并且 v2 开始支持 class 批量绑定
+                 * v1 版本仅支持 id 绑定, 且初始化是 init
+                 * 请注意辨别, v2版本于2021年8月19日发布
+                 * 庆祝码云开放 Gitee Page 功能
+                 * 本组织下所有开源扩展都会于近期同步升级到v2
+                 * 都将统一初始化函数为  render
+                 */
+                iconSelected.render(".layui-select-icon", {
                     event: {
                         select(event, data) {
                             console.log("选中的图标数据", { event, data });

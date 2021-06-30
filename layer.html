@@ -7,11 +7,19 @@
     <link rel="stylesheet" href="./css/example.css"/>
     <script src="./libs/layui/layui.js"></script>
     <link rel="stylesheet" href="./libs/layui/css/layui.css"/>
+    <style>
+        /*注意!*/
+        /*如果是嵌套在layer内, 需要覆盖掉layer弹层默认的overflow: auto;*/
+        /*否则会出现滚动条,并且显示不全*/
+        .layui-layer-page .layui-layer-content {
+            overflow: visible;
+        }
+    </style>
     <title>iconSelected - 图标选择器</title>
 </head>
 <body>
 <div class="board">
-    <h1 class="title">图标选择器</h1>
+    <h1 class="title">效果展示</h1>
     <h3 style="text-align: center; margin-bottom: 30px;">示例2: 嵌套在普通弹层内使用</h3>
     <button id="show-layer" class="layui-btn layui-btn-fluid">打开弹层</button>
 </div>
@@ -56,12 +64,10 @@
             base: "./libs/layui_exts/",
         })
         .extend({
-            numberInput: "numberInput/js/index",
             iconSelected: "iconSelected/js/index",
         });
 
-    layui.use(["numberInput", "layer", "iconSelected", "form", "jquery"], function () {
-        var numberInput = layui.numberInput;
+    layui.use(["layer", "iconSelected", "form", "jquery"], function () {
         var iconSelected = layui.iconSelected;
         var layer = layui.layer;
         var form = layui.form;
@@ -74,16 +80,13 @@
                 btn: false,
                 content: $("#tpl").text(),
                 success: function () {
-                    numberInput.init("#sort");
-
-                    iconSelected
-                        .init("#icon", {
-                            event: {
-                                select(event, data) {
-                                    console.log("选中的图标数据", {event, data});
-                                },
+                    iconSelected.render("#icon", {
+                        event: {
+                            select(event, data) {
+                                console.log("选中的图标数据", {event, data});
                             },
-                        });
+                        },
+                    });
 
                     form.on("submit", function (data) {
                         layer.open({

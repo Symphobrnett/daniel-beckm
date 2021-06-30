@@ -2,7 +2,7 @@
  * @name iconSelected
  * @author HuangJunjie
  * @description layui 图标选择器
- * @version 1.0.3.20210713
+ * @version 2.0.0.20210819
  */
 
 layui.define(["layer", "jquery"], function (exports) {
@@ -696,108 +696,113 @@ layui.define(["layer", "jquery"], function (exports) {
         }
 
         // 入口
-        function init(id, opts) {
+        function render(elem, opts) {
             if (!opts) opts = {};
 
             // 初始化必要DOM
-            var $input = $(id);
-            $input.hide();
-            var $body = $("body");
-            var $parent = $input.parent();
+            var $elems = $(elem);
 
-            // 初始化配置
-            var width = opts.width || 300;
-            var offsetX = opts.offsetX || 0;
-            var offsetY = opts.offsetY || 5;
-            var icons = opts.icons || layuiIcons;
-            var placeholder = $input.attr("placeholder") || opts.placeholder || "请选择";
-            var value = $input.val() || opts.value;
-            var zIndex = opts.zIndex || 19961005;
+            $elems.each(function () {
+                var $elem = $(this);
 
-            // 托管事件
-            function activeEvent(name, event, data) {
-                if (opts && opts.event && typeof opts.event[name] == "function") {
-                    opts.event[name](event, data);
-                }
-            }
+                $elem.hide();
+                var $body = $("body");
+                var $parent = $elem.parent();
 
-            // 更新值
-            function updateValueByClassList(classList) {
-                for (var i = 0; i < icons.length; i++) {
-                    var icon = icons[i];
+                // 初始化配置
+                var width = opts.width || 300;
+                var offsetX = opts.offsetX || 0;
+                var offsetY = opts.offsetY || 5;
+                var icons = opts.icons || layuiIcons;
+                var placeholder = $elem.attr("placeholder") || opts.placeholder || "请选择";
+                var value = $elem.val() || opts.value;
+                var zIndex = opts.zIndex || 19961005;
 
-                    if (icon.classList === classList) {
-                        // 处理选中效果
-                        var $icons = $icon_container.find("." + generatorClass("item"));
-                        $icons.removeClass("selected");
-                        $icons.eq(i).addClass("selected");
-
-                        // 清空输入框
-                        $input_dom.empty();
-
-                        // 设置值
-                        var $select = $('<div class="' + generatorClass("selected-value") + '"></div>');
-                        var $i = $('<i class="' + icon.classList + '"></i>').addClass(generatorClass("icon"));
-                        var $name = $('<div class="' + generatorClass("name") + '">' + icon.name + "</div>");
-                        $select.append($i).append($name);
-                        $input_dom.append($select).append($icon_down);
-                        $icon_container.removeClass("show");
-                        $input.val(classList);
-                        break;
+                // 托管事件
+                function activeEvent(name, event, data) {
+                    if (opts && opts.event && typeof opts.event[name] == "function") {
+                        opts.event[name](event, data);
                     }
                 }
-            }
 
-            // 创建虚拟DOM
-            var $placeholder = $('<span class="placeholder">' + placeholder + "</span>");
-            var $input_dom = $('<div class="' + generatorClass("input") + '"></div>');
-            var $icon_down = $('<i class="layui-icon layui-icon-triangle-d"></i>');
-            var $icon_container = $('<div class="' + generatorClass("container") + '"></div>');
-            $icon_container.css({
-                zIndex: zIndex,
-                width: width,
-                marginTop: offsetY,
-                marginLeft: offsetX,
-            });
-            $input_dom.append($placeholder).append($icon_down);
-            $parent.append($input_dom).append($icon_container);
+                // 更新值
+                function updateValueByClassList(classList) {
+                    for (var i = 0; i < icons.length; i++) {
+                        var icon = icons[i];
 
-            // 点击body移除弹层
-            $body.click(function () {
-                $icon_container.removeClass("show");
-            });
+                        if (icon.classList === classList) {
+                            // 处理选中效果
+                            var $icons = $icon_container.find("." + generatorClass("item"));
+                            $icons.removeClass("selected");
+                            $icons.eq(i).addClass("selected");
 
-            $input_dom.click(function (e) {
-                e.stopPropagation();
-                $icon_container.hasClass("show") ? $icon_container.removeClass("show") : $icon_container.addClass("show");
-            });
+                            // 清空输入框
+                            $input_dom.empty();
 
-            if (!opts) opts = {};
+                            // 设置值
+                            var $select = $('<div class="' + generatorClass("selected-value") + '"></div>');
+                            var $i = $('<i class="' + icon.classList + '"></i>').addClass(generatorClass("icon"));
+                            var $name = $('<div class="' + generatorClass("name") + '">' + icon.name + "</div>");
+                            $select.append($i).append($name);
+                            $input_dom.append($select).append($icon_down);
+                            $icon_container.removeClass("show");
+                            $elem.val(classList);
+                            break;
+                        }
+                    }
+                }
 
-            icons.forEach(function (icon, index) {
-                var $icon = $('<div class="' + generatorClass("item") + '"></div>');
-                var $i = $('<i class="' + icon.classList + '"></i>').addClass(generatorClass("icon"));
-                var $name = $('<div class="' + generatorClass("name") + '">' + icon.name + "</div>");
-                $icon
-                    .append($i)
-                    .append($name)
-                    .click(function (e) {
-                        e.stopPropagation();
-                        e.preventDefault();
+                // 创建虚拟DOM
+                var $placeholder = $('<span class="placeholder">' + placeholder + "</span>");
+                var $input_dom = $('<div class="' + generatorClass("input") + '"></div>');
+                var $icon_down = $('<i class="layui-icon layui-icon-triangle-d"></i>');
+                var $icon_container = $('<div class="' + generatorClass("container") + '"></div>');
+                $icon_container.css({
+                    zIndex: zIndex,
+                    width: width,
+                    marginTop: offsetY,
+                    marginLeft: offsetX,
+                });
+                $input_dom.append($placeholder).append($icon_down);
+                $parent.append($input_dom).append($icon_container);
 
-                        var classList = icons[index].classList;
-                        updateValueByClassList(classList);
-                        activeEvent("select", e, {
-                            index: index,
-                            icons: icons,
-                            icon: classList,
+                // 点击body移除弹层
+                $body.click(function () {
+                    $icon_container.removeClass("show");
+                });
+
+                $input_dom.click(function (e) {
+                    e.stopPropagation();
+                    $icon_container.hasClass("show") ? $icon_container.removeClass("show") : $icon_container.addClass("show");
+                });
+
+                if (!opts) opts = {};
+
+                icons.forEach(function (icon, index) {
+                    var $icon = $('<div class="' + generatorClass("item") + '"></div>');
+                    var $i = $('<i class="' + icon.classList + '"></i>').addClass(generatorClass("icon"));
+                    var $name = $('<div class="' + generatorClass("name") + '">' + icon.name + "</div>");
+                    $icon
+                        .append($i)
+                        .append($name)
+                        .click(function (e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+
+                            var classList = icons[index].classList;
+                            updateValueByClassList(classList);
+                            activeEvent("select", e, {
+                                index: index,
+                                icons: icons,
+                                icon: classList,
+                            });
                         });
-                    });
 
-                $icon_container.append($icon);
+                    $icon_container.append($icon);
+                });
+
+                updateValueByClassList(value);
             });
-
-            updateValueByClassList(value);
 
             return this;
         }
@@ -846,7 +851,7 @@ layui.define(["layer", "jquery"], function (exports) {
             return this;
         }
 
-        this.init = init;
+        this.render = render;
         this.icons = layuiIcons;
         this.addIcon = addIcon;
         this.addIcons = addIcons;
