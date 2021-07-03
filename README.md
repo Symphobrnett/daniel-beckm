@@ -29,6 +29,8 @@
 
 > 可能由于平台规则限制, 部分 HTML 示例无法直接预览, 对于暂时无法预览的页面你可以直接拉去项目到本地阅读相关代码.
 
+> 如果想要更好的阅读文档体验, 可以 [点击这里](https://layui-exts.gitee.io/icon-selected/#/) 阅读在线文档
+
 1. 常规使用: [example.html](./example.html)
 2. 嵌套在弹层内使用: [layer.html](./layer.html)
 
